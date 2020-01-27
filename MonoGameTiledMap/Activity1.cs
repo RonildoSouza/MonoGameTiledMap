@@ -19,9 +19,9 @@ namespace MonoGameTiledMap
         {
             base.OnCreate(bundle);
 
-            var platformerGameMapStream = Assets.Open("PlatformerGameMap.json");
+            var tiledBackgroundMapStream = Assets.Open("TiledBackgroundMap.json");
 
-            var g = new Game1(platformerGameMapStream);
+            var g = new Game1(tiledBackgroundMapStream);
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();
         }
