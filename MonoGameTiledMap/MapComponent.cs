@@ -24,10 +24,7 @@ namespace MonoGameTiledMap
         {
             base.LoadContent();
 
-            _spriteBatch = Game.Services.GetService<SpriteBatch>();
-
-            if (_spriteBatch == null)
-                _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
             // Lê todo o arquivo JSON
             var conteudoDoJson = _tiledMapStreamReader.ReadToEnd();
@@ -48,7 +45,8 @@ namespace MonoGameTiledMap
             {
                 for (int indiceLinhaDoLayer = 0; indiceLinhaDoLayer < layer.Height; indiceLinhaDoLayer++)
                 {
-                    var dadosLinhaDoLayer = layer.Data.Skip(indiceLinhaDoLayer * layer.Width).Take(layer.Width);
+                    var dadosLinhaDoLayer = layer.Data.Skip(indiceLinhaDoLayer * layer.Width)
+                                                      .Take(layer.Width);
 
                     for (int indiceColunaDoLayer = 0; indiceColunaDoLayer < layer.Width; indiceColunaDoLayer++)
                     {
