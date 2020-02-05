@@ -55,7 +55,7 @@
         {
          "columns":3,
          "firstgid":1,
-         "image":"TiledBackgroundTileset.png",
+         "image":"..\/Content\/TiledBackgroundTileset.png",
          "imageheight":360,
          "imagewidth":120,
          "margin":0,
