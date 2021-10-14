@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Android.Gestures;
+using Comora;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
@@ -13,6 +16,7 @@ namespace MonoGameTiledMap
         private SpriteBatch _spriteBatch;
         private Map _map;
         private Texture2D _tilesetTexture;
+        private Camera _camera;
 
         public MapComponent(Game game, Stream tiledMapStream, string tilesetName) : base(game)
         {
@@ -25,6 +29,7 @@ namespace MonoGameTiledMap
             base.LoadContent();
 
             _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            _camera = new Camera(Game.GraphicsDevice);
 
             // Lê todo o arquivo JSON
             var conteudoDoJson = _tiledMapStreamReader.ReadToEnd();
@@ -34,12 +39,23 @@ namespace MonoGameTiledMap
 
             // Carrega o tileset para um objeto do tipo Texture2D
             _tilesetTexture = Game.Content.Load<Texture2D>(_tilesetName);
+        }
 
+        public override void Update(GameTime gameTime)
+        {
+            _camera.Update(gameTime);
+
+            var tc = TouchPanel.GetState();
+
+            if (tc.Any() && tc[0].State == TouchLocationState.Moved)
+                _camera.Position = tc[0].Position;
+
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(_camera);
 
             foreach (var layer in _map.Layers)
             {
